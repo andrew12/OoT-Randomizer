@@ -3,6 +3,55 @@
 import random
 import os
 
+bgm_sequence_setting_map = {
+    'bgm_hyrule_field':         'Hyrule Field',
+    'bgm_dodongos_cavern':      'Dodongos Cavern',
+    'bgm_kakariko_adult':       'Kakariko Adult',
+    'bgm_battle':               'Battle',
+    'bgm_boss_battle':          'Boss Battle',
+    'bgm_inside_deku_tree':     'Inside Deku Tree',
+    'bgm_market':               'Market',
+    'bgm_title_theme':          'Title Theme',
+    'bgm_house':                'House',
+    'bgm_jabu_jabu':            'Jabu Jabu',
+    'bgm_kakariko_child':       'Kakariko Child',
+    'bgm_fairy_fountain':       'Fairy Fountain',
+    'bgm_zelda_theme':          'Zelda Theme',
+    'bgm_fire_temple':          'Fire Temple',
+    'bgm_forest_temple':        'Forest Temple',
+    'bgm_castle_courtyard':     'Castle Courtyard',
+    'bgm_ganondorf_theme':      'Ganondorf Theme',
+    'bgm_lon_lon_ranch':        'Lon Lon Ranch',
+    'bgm_goron_city':           'Goron City',
+    'bgm_miniboss_battle':      'Miniboss Battle',
+    'bgm_temple_of_time':       'Temple of Time',
+    'bgm_kokiri_forest':        'Kokiri Forest',
+    'bgm_lost_woods':           'Lost Woods',
+    'bgm_spirit_temple':        'Spirit Temple',
+    'bgm_horse_race':           'Horse Race',
+    'bgm_ingo_theme':           'Ingo Theme',
+    'bgm_fairy_flying':         'Fairy Flying',
+    'bgm_deku_tree':            'Deku Tree',
+    'bgm_windmill_hut':         'Windmill Hut',
+    'bgm_shooting_gallery':     'Shooting Gallery',
+    'bgm_sheik_theme':          'Sheik Theme',
+    'bgm_zoras_domain':         'Zoras Domain',
+    'bgm_shop':                 'Shop',
+    'bgm_chamber_of_the_sages': 'Chamber of the Sages',
+    'bgm_ice_cavern':           'Ice Cavern',
+    'bgm_kaepora_gaebora':      'Kaepora Gaebora',
+    'bgm_shadow_temple':        'Shadow Temple',
+    'bgm_water_temple':         'Water Temple',
+    'bgm_gerudo_valley':        'Gerudo Valley',
+    'bgm_potion_shop':          'Potion Shop',
+    'bgm_kotake_and_koume':     'Kotake and Koume',
+    'bgm_castle_escape':        'Castle Escape',
+    'bgm_castle_underground':   'Castle Underground',
+    'bgm_ganondorf_battle':     'Ganondorf Battle',
+    'bgm_ganon_battle':         'Ganon Battle',
+    'bgm_fire_boss':            'Fire Boss',
+    'bgm_minigame':             'Mini-game',
+}              
 
 # Format: (Title, Sequence ID)
 bgm_sequence_ids = [
@@ -90,7 +139,7 @@ ocarina_sequence_ids = [
 
 # Represents the information associated with a sequence, aside from the sequence data itself
 class TableEntry(object):
-    def __init__(self, name, cosmetic_name, type = 0x0202, instrument_set = 0x03, replaces = -1, vanilla_id = -1):
+    def __init__(self, name, cosmetic_name, type = 0x0202, instrument_set = 0x03, replaces = set(), vanilla_id = -1):
         self.name = name
         self.cosmetic_name = cosmetic_name
         self.replaces = replaces
@@ -110,47 +159,14 @@ class Sequence(object):
 def process_sequences(rom, sequences, target_sequences, ids, seq_type = 'bgm'):
     # Process vanilla music data
     for bgm in ids:
-        # Get sequence metadata
-        name = bgm[0]
-        cosmetic_name = name
-        type = rom.read_int16(0xB89AE8 + (bgm[1] * 0x10))
-        instrument_set = rom.read_byte(0xB89911 + 0xDD + (bgm[1] * 2))
-        id = bgm[1]
-
-        # Create new sequences
-        seq = TableEntry(name, cosmetic_name, type, instrument_set, vanilla_id = id)
-        target = TableEntry(name, cosmetic_name, type, instrument_set, replaces = id)
+        seq, target = read_vanilla_sequence_metadata(rom, bgm)
 
         # Special handling for file select/fairy fountain
         if seq.vanilla_id != 0x57:
             sequences.append(seq)
         target_sequences.append(target)
 
-    # Process music data in data/Music/
-    # Each sequence requires a valid .seq sequence file and a .meta metadata file
-    # Current .meta format: Cosmetic Name\nInstrument Set\nPool
-    for dirpath, _, filenames in os.walk(u'./data/Music'):
-        for fname in filenames:
-            # Find meta file and check if corresponding seq file exists
-            if fname.endswith('.meta') and os.path.isfile(os.path.join(dirpath, fname.split('.')[0] + '.seq')):
-                # Read meta info
-                try:
-                    with open(os.path.join(dirpath, fname), 'r') as stream:
-                        lines = stream.readlines()
-                    # Strip newline(s) which doesn't like to work for some reason
-                    for line in lines:
-                        line = line.rstrip()
-                except FileNotFoundError as ex:
-                    raise FileNotFoundError('No meta file for: "' + fname + '". This should never happen')
-
-                # Create new sequence, checking third line for correct type
-                if (len(lines) > 2 and (lines[2].lower().rstrip() == seq_type.lower() or lines[2] == '')) or (len(lines) <= 2 and seq_type == 'bgm'):
-                    seq = TableEntry(os.path.join(dirpath, fname.split('.')[0]), lines[0], instrument_set = int(lines[1], 16))
-
-                    if seq.instrument_set < 0x00 or seq.instrument_set > 0x25:
-                        raise Exception('Sequence instrument must be in range [0x00, 0x25]')
-
-                    sequences.append(seq)
+    sequences = sequences + process_custom_sequences(seq_type)
 
     return sequences, target_sequences
 
@@ -188,7 +204,7 @@ def rebuild_sequences(rom, sequences, log):
         if entry.size > 0:
             entry.data = rom.read_bytes(entry.address + 0x029DE0, entry.size)
         else:
-            s = [seq for seq in sequences if seq.replaces == i]
+            s = [seq for seq in sequences if i in seq.replaces]
             if s != [] and entry.address > 0 and entry.address < 128:
                 s = s.pop()
                 if s.replaces != 0x28:
@@ -215,7 +231,7 @@ def rebuild_sequences(rom, sequences, log):
         else:
             new_entry.address = address
 
-        s = [seq for seq in sequences if seq.replaces == i]
+        s = [seq for seq in sequences if i in seq.replaces]
         if s != []:
             assert len(s) == 1
             s = s.pop()
@@ -270,7 +286,7 @@ def rebuild_sequences(rom, sequences, log):
     for i in range(0x6E):
         rom.write_int32(0xB89AE0 + (i * 0x10), new_sequences[i].address)
         rom.write_int32(0xB89AE0 + (i * 0x10) + 0x04, new_sequences[i].size)
-        s = [seq for seq in sequences if seq.replaces == i]
+        s = [seq for seq in sequences if i in seq.replaces]
         if s != []:
             assert len(s) == 1
             s = s.pop()
@@ -282,12 +298,12 @@ def rebuild_sequences(rom, sequences, log):
         j = -1
         if new_sequences[i].size == 0:
             try:
-                j = [seq for seq in sequences if seq.replaces == new_sequences[i].address].pop()
+                j = [seq for seq in sequences if new_sequences[i].address in seq.replaces].pop()
             except:
                 j = -1
         else:
             try:
-                j = [seq for seq in sequences if seq.replaces == i].pop()
+                j = [seq for seq in sequences if i in seq.replaces].pop()
             except:
                 j = -1
         if j != -1:
@@ -336,9 +352,16 @@ def randomize_music(rom, settings):
     if settings.compress_rom != 'Patch':
         if settings.background_music in ['random', 'random_custom_only']:
             sequences, target_sequences = process_sequences(rom, sequences, target_sequences, bgm_sequence_ids)
+            selected_sequences = []
+
+            if settings.enable_choose_bgm:
+                sequences, target_sequences, selected_sequences, log = assign_selected_sequences(rom, settings, sequences, target_sequences, log)
+
             if settings.background_music == 'random_custom_only':
                 sequences = [seq for seq in sequences if seq.cosmetic_name not in [x[0] for x in bgm_sequence_ids]]
+            
             sequences, log = shuffle_music(sequences, target_sequences, log)
+            sequences = sequences + selected_sequences
 
         if settings.fanfares in ['random', 'random_custom_only']:
             fanfare_sequences, fanfare_target_sequences = process_sequences(rom, fanfare_sequences, fanfare_target_sequences, ff_ids, 'fanfare')
@@ -396,4 +419,89 @@ def restore_music(rom):
         # Zero out old audioseq
         rom.write_bytes(start, [0] * size)
         rom.update_dmadata_record(start, orig_start, orig_end)
+
+def process_custom_sequences(seq_type):
+    sequences = []
+
+    # Process music data in data/Music/
+    # Each sequence requires a valid .seq sequence file and a .meta metadata file
+    # Current .meta format: Cosmetic Name\nInstrument Set\nPool
+    for dirpath, _, filenames in os.walk(u'./data/Music'):
+        for fname in filenames:
+            # Find meta file and check if corresponding seq file exists
+            if fname.endswith('.meta') and os.path.isfile(os.path.join(dirpath, fname.split('.')[0] + '.seq')):
+                # Read meta info
+                try:
+                    with open(os.path.join(dirpath, fname), 'r') as stream:
+                        lines = stream.readlines()
+                    # Strip newline(s) which doesn't like to work for some reason
+                    for line in lines:
+                        line = line.rstrip()
+                except FileNotFoundError as ex:
+                    raise FileNotFoundError('No meta file for: "' + fname + '". This should never happen')
+
+                # Create new sequence, checking third line for correct type
+                if (len(lines) > 2 and (lines[2].lower().rstrip() == seq_type.lower() or lines[2] == '')) or (len(lines) <= 2 and seq_type == 'bgm'):
+                    seq = TableEntry(os.path.join(dirpath, fname.split('.')[0]), lines[0], instrument_set = int(lines[1], 16))
+
+                    if seq.instrument_set < 0x00 or seq.instrument_set > 0x25:
+                        raise Exception('Sequence instrument must be in range [0x00, 0x25]')
+
+                    sequences.append(seq)  
+    return sequences
+
+def read_vanilla_sequence_metadata(rom, bgm):
+    name = bgm[0]
+    cosmetic_name = name
+    type = rom.read_int16(0xB89AE8 + (bgm[1] * 0x10))
+    instrument_set = rom.read_byte(0xB89911 + 0xDD + (bgm[1] * 2))
+    id = bgm[1]
+
+    # Create new sequences
+    seq = TableEntry(name, cosmetic_name, type, instrument_set, vanilla_id = id)
+    target = TableEntry(name, cosmetic_name, type, instrument_set, replaces = {id})
+
+    return seq, target
+
+def get_sequence_choices(seq_type):
+    custom_sequences = process_custom_sequences(seq_type)
+    choices = {x[0]: x[0] for x in bgm_sequence_ids}
+    custom_choices = {x.name: x.cosmetic_name for x in custom_sequences}
+    result = {
+        'normal': 'Normal',
+        'random': 'Random',
+        'off':    'No Music',
+        **choices,
+        **custom_choices
+    }
+    return result
+
+def assign_selected_sequences(rom, settings, sequences, target_sequences, log):
+    no_music, _ = read_vanilla_sequence_metadata(rom, ('No Music', 0x00))
+    selected_sequences = []
+    normal_bgm_names = []
+    preset_bgm_settings = {k: v for k,v in settings.__dict__.items() if k.startswith('bgm_') and v != 'random'}
+
+    for k,v in preset_bgm_settings.items():
+        seq_name = bgm_sequence_setting_map[k]
+        target_seq = [seq for seq in target_sequences if seq.name == seq_name].pop()
+
+        if v == 'off':
+            selected_seq = no_music
+        elif v == 'normal':
+            selected_seq = [seq for seq in sequences if seq.name == seq_name].pop()
+            normal_bgm_names.append(selected_seq.name)
+        else:
+            selected_seq = [seq for seq in sequences if seq.name == v].pop()
+
+        selected_seq.replaces = selected_seq.replaces.union(target_seq.replaces)
+
+        if (len(selected_seq.replaces) == 1):
+            selected_sequences.append(selected_seq)
+
+        log[target_seq.cosmetic_name] = selected_seq.cosmetic_name.rstrip()
+        target_sequences.remove(target_seq)
+    
+    sequences = [seq for seq in sequences if seq.name not in preset_bgm_settings.values() and seq.name not in normal_bgm_names]
+    return sequences, target_sequences, selected_sequences, log
 

@@ -11,6 +11,7 @@ from Utils import data_path
 from itertools import chain
 import StartingItems
 from Hints import HintDistList, HintDistTips
+import Music as music
 
 # holds the info for a single setting
 class Setting_Info():
@@ -3057,6 +3058,10 @@ setting_infos = [
             'random':               'Random',
             'random_custom_only':   'Random (Custom Only)',
         },
+        disable        = {
+            'normal' : {'settings' : ['enable_choose_bgm']},
+            'off' : {'settings' : ['enable_choose_bgm']}
+        },
         gui_tooltip    = '''\
             'No Music': No background music is played.
 
@@ -3107,6 +3112,74 @@ setting_infos = [
         ''',
         gui_params  = {
             "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                (True, 1),
+            ]
+        },
+        default        = False,
+    ),
+    Checkbutton(
+        name           = 'enable_choose_bgm',
+        gui_text       = 'Allow Background Music Selection',
+        disable        = {
+            False: {
+                'settings': [
+                    'bgm_hyrule_field',
+                    'bgm_dodongos_cavern',
+                    'bgm_kakariko_adult',
+                    'bgm_battle',
+                    'bgm_boss_battle',
+                    'bgm_inside_deku_tree',
+                    'bgm_market',
+                    'bgm_title_theme',
+                    'bgm_house',
+                    'bgm_jabu_jabu',
+                    'bgm_kakariko_child',
+                    'bgm_fairy_fountain',
+                    'bgm_zelda_theme',
+                    'bgm_fire_temple',
+                    'bgm_forest_temple',
+                    'bgm_castle_courtyard',
+                    'bgm_ganondorf_theme',
+                    'bgm_lon_lon_ranch',
+                    'bgm_goron_city',
+                    'bgm_miniboss_battle',
+                    'bgm_temple_of_time',
+                    'bgm_kokiri_forest',
+                    'bgm_lost_woods',
+                    'bgm_spirit_temple',
+                    'bgm_horse_race',
+                    'bgm_ingo_theme',
+                    'bgm_fairy_flying',
+                    'bgm_deku_tree',
+                    'bgm_windmill_hut',
+                    'bgm_shooting_gallery',
+                    'bgm_sheik_theme',
+                    'bgm_zoras_domain',
+                    'bgm_shop',
+                    'bgm_chamber_of_the_sages',
+                    'bgm_ice_cavern',
+                    'bgm_kaepora_gaebora',
+                    'bgm_shadow_temple',
+                    'bgm_water_temple',
+                    'bgm_gerudo_valley',
+                    'bgm_potion_shop',
+                    'bgm_kotake_and_koume',
+                    'bgm_castle_escape',
+                    'bgm_castle_underground',
+                    'bgm_ganondorf_battle',
+                    'bgm_ganon_battle',
+                    'bgm_fire_boss',
+                    'bgm_minigame'
+                ]
+            }
+        },
+        gui_tooltip    = '''\
+            Allows setting background music in areas to
+            specfic sequences. 
+        ''',
+        gui_params  = {
             'randomize_key': 'randomize_all_sfx',
             'distribution': [
                 (True, 1),
@@ -3772,6 +3845,899 @@ setting_infos = [
                 ('random-choice', 1),
             ]
         }
+    ),
+    Combobox(
+        name           = 'bgm_hyrule_field',
+        gui_text       = 'Hyrule Field',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_dodongos_cavern',
+        gui_text       = 'Dodongos Cavern',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_kakariko_adult',
+        gui_text       = 'Kakariko Adult',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_battle',
+        gui_text       = 'Battle',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_boss_battle',
+        gui_text       = 'Boss Battle',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_inside_deku_tree',
+        gui_text       = 'Inside Deku Tree',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_market',
+        gui_text       = 'Market',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_title_theme',
+        gui_text       = 'Title Theme',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_house',
+        gui_text       = 'House',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_jabu_jabu',
+        gui_text       = 'Jabu Jabu',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_kakariko_child',
+        gui_text       = 'Kakariko Child',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_fairy_fountain',
+        gui_text       = 'Fairy Fountain',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_zelda_theme',
+        gui_text       = 'Zelda Theme',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_fire_temple',
+        gui_text       = 'Fire Temple',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_forest_temple',
+        gui_text       = 'Forest Temple',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_castle_courtyard',
+        gui_text       = 'Castle Courtyard',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_ganondorf_theme',
+        gui_text       = 'Ganondorf Theme',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_lon_lon_ranch',
+        gui_text       = 'Lon Lon Ranch',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_goron_city',
+        gui_text       = 'Goron City',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_miniboss_battle',
+        gui_text       = 'Miniboss Battle',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_temple_of_time',
+        gui_text       = 'Temple of Time',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_kokiri_forest',
+        gui_text       = 'Kokiri Forest',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_lost_woods',
+        gui_text       = 'Lost Woods',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_spirit_temple',
+        gui_text       = 'Spirit Temple',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_horse_race',
+        gui_text       = 'Horse Race',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_ingo_theme',
+        gui_text       = 'Ingo Theme',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_fairy_flying',
+        gui_text       = 'Fairy Flying',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_deku_tree',
+        gui_text       = 'Deku Tree',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_windmill_hut',
+        gui_text       = 'Windmill Hut',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_shooting_gallery',
+        gui_text       = 'Shooting Gallery',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_sheik_theme',
+        gui_text       = 'Sheik Theme',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_zoras_domain',
+        gui_text       = 'Zoras Domain',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_shop',
+        gui_text       = 'Shop',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_chamber_of_the_sages',
+        gui_text       = 'Chamber of the Sages',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_ice_cavern',
+        gui_text       = 'Ice Cavern',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_kaepora_gaebora',
+        gui_text       = 'Kaepora Gaebora',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_shadow_temple',
+        gui_text       = 'Shadow Temple',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_water_temple',
+        gui_text       = 'Water Temple',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_gerudo_valley',
+        gui_text       = 'Gerudo Valley',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_potion_shop',
+        gui_text       = 'Potion Shop',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_kotake_and_koume',
+        gui_text       = 'Kotake and Koume',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_castle_escape',
+        gui_text       = 'Castle Escape',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_castle_underground',
+        gui_text       = 'Castle Underground',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_ganondorf_battle',
+        gui_text       = 'Ganondorf Battle',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_ganon_battle',
+        gui_text       = 'Ganon Battle',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_fire_boss',
+        gui_text       = 'Fire Boss',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
+    ),
+    Combobox(
+        name           = 'bgm_minigame',
+        gui_text       = 'Mini-game ',
+        choices        = music.get_sequence_choices('bgm'),
+        default        = 'random',
+        gui_tooltip    = '''\
+            'Normal': Default background music is played.
+            'Random': Area background music is randomized. 
+            'No Music': No background music is played.
+            Additional music can be loaded from data/Music/
+        ''',
+        gui_params  = {
+            "hide_when_disabled": True,
+            'randomize_key': 'randomize_all_sfx',
+            'distribution': [
+                ('random', 1),
+            ]
+        },
     ),
 ]
 
